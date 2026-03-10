@@ -20,6 +20,7 @@ class NewProductData:
     phone: Optional[str] = None
     telegram: Optional[str] = None
     policy_agreement: bool = False
+    mri_experience_other : Optional[str] = None
 
     @classmethod
     def from_model(cls, model_instance) -> "NewProductData":
@@ -44,4 +45,5 @@ class NewProductData:
             phone=model_instance.phone,
             telegram=model_instance.telegram,
             policy_agreement=model_instance.policy_agreement,
+            mri_experience_other=model_instance.mri_experience_other
         )

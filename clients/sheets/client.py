@@ -23,21 +23,18 @@ class SpreadsheetClient:
         sheet.append_row(
             [
                 f"{datetime.datetime.now()}",
+                f"{data.full_name}",
+                f"{data.telegram}",
+                f"{data.phone}",
                 f"{data.source}",
-                f"{data.mri_experience}",
+                f"{data.mri_experience} {data.mri_experience_other}",
                 f"{data.specialization}",
-                f"{data.mri_description_experience}",
-                f"{data.mri_description_experience_details}",
+                f"{data.mri_description_experience} {data.mri_description_experience_details}",
                 f"{data.city}",
                 f"{data.income_rub}",
                 f"{data.difficult_sections}",
                 f"{data.can_plan_mri}",
                 f"{data.work_schedule}",
                 f"{data.convenient_time}",
-                f"{data.convenient_weekdays}",
-                f"{data.full_name}",
-                f"{data.phone}",
-                f"{data.telegram}",
-                f"{data.policy_agreement}",
             ]
         )
