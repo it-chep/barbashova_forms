@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_scripts %}
+    <script src="{% static "js/new_product.js" %}"></script>
+{% endblock %}
+
+{% block title %}
+    АНКЕТА предзаписи для рентгенологов
+{% endblock %}
+
+{% block extra_links %}
+    <link rel="stylesheet" href="{% static "css/pink_form.css" %}">
+{% endblock %}
+
+{% block content %}
+    <form action="{% url "new_product" %}" method="post">
+        {% csrf_token %}
+        <div class="form-container">
+            <div class="header_image_container">
+                {% if business_form_settings %}
+                    <img src="{{ business_form_settings.photo.url }}">
+                {% endif %}
+            </div>
+            <div class="description_container">
+                <div class="description_container_header_cap"></div>
+                <div class="description_container_header_container">
+                    <div class="description_container_header">
+                        <div class="description_container_header_text" dir="auto" role="heading" aria-level="1">
+                            АНКЕТА предзаписи для рентгенологов
+                        </div>
+                    </div>
+                    <div class="description_container_header_body" dir="auto">
+                        Приветствую Вас. Меня зовут Афина Барбашова и я готовлю курс по МРТ для начинающих врачей, который стартует 1 апреля.<br><br>
+                        Курс включает в себя три больших блока: МРТ головного мозга, МРТ позвоночника и МРТ малого таза (мужской и женский), от анатомии и импульсных последовательностей до сложных клинических случаев.<br>
+                        Обучение будет проходить он-лайн 2 раза в неделю по 1-1,5 часа. Мы будем разбирать небольшой теоретический материал, и главное, повышать свою насмотренность на клинических примерах.<br><br>
+                        За время обучения, которое продлиться 3 месяца, вы будете получать домашние задания с обязательным моим разбором ошибок или наоборот похвалы за отличные описания.<br><br>
+                        В закрытом чате вы сможете во время обучения задавать любые вопросы по исследованиям любых зон. Весь лекционный материал останется у вас навсегда, а также вы получите другой вспомогательный материал для быстрых ответов на работе, наиболее свежие статьи из мировых источников для уменьшения вашего времени на их поиск.<br><br>
+                        Заполните эту анкету и забронируйте себе место на курсе (места ограничены)<br><br>
+                        Для тех кто заполнит анкету и напишет в директ @Afinadoc слово "Анкета" ждет небольшой сюрприз-шпаргалка.
+                    </div>
+                </div>
+            </div>
+            <div class="field_list" role="list">
+                {% for field in medblogers_form %}
+                    {% if field.name != "mri_experience_other" and field.name != "mri_description_experience_details" %}
+                    <div class="field_item_container" role="listitem">
+                        <div class="field_inline_item_container">
+                            <div class="field_item_label_container">
+                                <div class="field_item_label">
+                                    <div class="field_item_label_text">
+                                        {% if field.name != "policy_agreement" %}
+                                            {{ field.label }}
+                                        {% else %}
+                                            Согласен с
+                                            <a href="https://readyschool.ru/politicapers" target="_blank">
+                                                политикой обработки персональных данных
+                                            </a>
+                                        {% endif %}
+                                        {% if field.field.required %}
+                                            <span class="required_star">*</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field_item_input_container">
+                                <div class="field_item_input">
+                                    <div class="field_item_input_inline">
+                                        <div class="input_container">
+                                            <div class="radio-button-container">
+                                                {% if field.name == "source" or field.name == "mri_experience" or field.name == "specialization" or field.name == "work_schedule" or field.name == "mri_description_experience" %}
+                                                    {% for value, label in field.field.choices %}
+                                                        <div class="radio-button {% if field.name == "mri_experience" and value == "other" %}radio-button_with-other{% endif %}">
+                                                            <input type="radio" class="radio-button__input"
+                                                                   id="{{ field.name }}_{{ value }}"
+                                                                   name="{{ field.name }}" value="{{ value }}"
+                                                                   {% if field.value == value %}checked{% endif %}>
+                                                            <label class="radio-button__label" for="{{ field.name }}_{{ value }}">
+                                                                <span class="radio-button__custom"></span>
+                                                                {{ label }}
+                                                            </label>
+                                                            {% if field.name == "mri_experience" and value == "other" %}
+                                                                <div class="other-input-container" id="mri-experience-other-container" style="display:none;">
+                                                                    {{ medblogers_form.mri_experience_other }}
+                                                                </div>
+                                                            {% endif %}
+                                                            {% if field.name == "mri_description_experience" and value == "yes" %}
+                                                                <div class="other-input-container" id="mri-description-details-container" style="display:none;">
+                                                                    <div class="field_item_label_text" style="margin: 8px 0 12px;">
+                                                                    </div>
+                                                                    <div class="textarea-with-underline">
+                                                                        {{ medblogers_form.mri_description_experience_details }}
+                                                                        <div class="underline"></div>
+                                                                    </div>
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    {% endfor %}
+                                                {% elif field.name == "policy_agreement" %}
+                                                    {{ field }}
+                                                    <div class="radio-button">
+                                                        <input type="radio" class="radio-button__input" id="radio" name="policy_agreement_radio">
+                                                        <label class="radio-button__label" for="radio">
+                                                            <span class="radio-button__custom"></span>
+                                                            Да
+                                                        </label>
+                                                    </div>
+                                                {% elif field.name == "difficult_sections" or field.name == "can_plan_mri" or field.name == "convenient_time" or field.name == "convenient_weekdays" %}
+                                                    <div class="textarea-with-underline">
+                                                        {{ field }}
+                                                        <div class="underline"></div>
+                                                    </div>
+                                                {% else %}
+                                                    {{ field }}
+                                                {% endif %}
+                                                <div class="line"></div>
+                                            </div>
+                                            <div class="line"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field_item_warning_container">
+                                <div class="field_item_warning">
+                                    <img src="{% static "img/warning.svg" %}">
+                                    <span class="warning_text">Это обязательный вопрос.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="buttons_container">
+                <div class="buttons_inline_container">
+                    <div class="submit_container">
+                        <div class="submit_button" role="button">
+                            <span class="submit_text_container">
+                                <span class="submit_text">Отправить</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="clear_container">
+                        <div class="clear_inline_container" role="button">
+                            <span class="clear_button">
+                                <span class="clear_button_text">Очистить форму</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Спасибо !
+{% endblock %}
+
+{% block extra_links %}
+    <link rel="stylesheet" href="{% static "css/pink_form.css" %}">
+    <link rel="stylesheet" href="{% static "css/spasibo_medbloger.css" %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="header_image_container">
+            {% if business_form_settings %}
+                <img src="{{ business_form_settings.spasibo_photo.url }}">
+            {% endif %}
+        </div>
+        <div class="inline_container">
+            <div class="description_container_header_cap"></div>
+            <div>
+                Спасибо за честные ответы! Напишите мне в Telegram
+                <a href="https://t.me/Afinadoc" target="_blank">https://t.me/Afinadoc</a>
+                слово КАСТДЕВ, если хотите забрать бонусный список статей побыстрее 😇
+            </div>
+        </div>
+    </div>
+{% endblock %}
