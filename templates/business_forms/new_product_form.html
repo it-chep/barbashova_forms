@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block title %}
-    АНКЕТА предзаписи для рентгенологов
+    АНКЕТА предзаписи на курс по МРТ для рентгенологов
 {% endblock %}
 
 {% block extra_links %}
@@ -27,23 +27,26 @@
                 <div class="description_container_header_container">
                     <div class="description_container_header">
                         <div class="description_container_header_text" dir="auto" role="heading" aria-level="1">
-                            АНКЕТА предзаписи для рентгенологов
+                            АНКЕТА предзаписи на курс по МРТ для рентгенологов
                         </div>
                     </div>
                     <div class="description_container_header_body" dir="auto">
-                        Приветствую Вас. Меня зовут Афина Барбашова и я готовлю курс по МРТ для начинающих врачей, который стартует 1 апреля.<br><br>
-                        Курс включает в себя три больших блока: МРТ головного мозга, МРТ позвоночника и МРТ малого таза (мужской и женский), от анатомии и импульсных последовательностей до сложных клинических случаев.<br>
+                        Приветствую Вас. Меня зовут Афина Барбашова и я готовлю курс по МРТ для начинающих врачей.<br><br>
+                        Курс включает в себя три больших блока:<br>
+                        - МРТ головного мозга,<br>
+                        - МРТ позвоночника,<br>
+                        - МРТ малого таза (мужской и женский), от анатомии и импульсных последовательностей до сложных клинических случаев.<br><br>
                         Обучение будет проходить он-лайн 2 раза в неделю по 1-1,5 часа. Мы будем разбирать небольшой теоретический материал, и главное, повышать свою насмотренность на клинических примерах.<br><br>
-                        За время обучения, которое продлиться 3 месяца, вы будете получать домашние задания с обязательным моим разбором ошибок или наоборот похвалы за отличные описания.<br><br>
+                        За время обучения, которое продлится 3 месяца, вы будете получать домашние задания с обязательным моим разбором ошибок или наоборот похвалы за отличные описания.<br><br>
                         В закрытом чате вы сможете во время обучения задавать любые вопросы по исследованиям любых зон. Весь лекционный материал останется у вас навсегда, а также вы получите другой вспомогательный материал для быстрых ответов на работе, наиболее свежие статьи из мировых источников для уменьшения вашего времени на их поиск.<br><br>
                         Заполните эту анкету и забронируйте себе место на курсе (места ограничены)<br><br>
-                        Для тех кто заполнит анкету и напишет в директ @Afinadoc слово "Анкета" ждет небольшой сюрприз-шпаргалка.
+                        <i>Для тех кто заполнит анкету до конца, вас будет ждать сюрприз-шпаргалка 😉</i>
                     </div>
                 </div>
             </div>
             <div class="field_list" role="list">
                 {% for field in medblogers_form %}
-                    {% if field.name != "mri_experience_other" and field.name != "mri_description_experience_details" %}
+                    {% if field.name != "specialization_other" and field.name != "mri_experience_other" and field.name != "work_schedule_other" %}
                     <div class="field_item_container" role="listitem">
                         <div class="field_inline_item_container">
                             <div class="field_item_label_container">
@@ -53,7 +56,7 @@
                                             {{ field.label }}
                                         {% else %}
                                             Согласен с
-                                            <a href="https://readyschool.ru/politicapers" target="_blank">
+                                            <a href="https://docs.google.com/document/d/1vOZhoZFfcqliG4MhX9i1rzgx_p6NU9Gg8Yp0sZkTMYU/edit?tab=t.0" target="_blank">
                                                 политикой обработки персональных данных
                                             </a>
                                         {% endif %}
@@ -68,9 +71,9 @@
                                     <div class="field_item_input_inline">
                                         <div class="input_container">
                                             <div class="radio-button-container">
-                                                {% if field.name == "source" or field.name == "mri_experience" or field.name == "specialization" or field.name == "work_schedule" or field.name == "mri_description_experience" %}
+                                                {% if field.name == "source" or field.name == "specialization" or field.name == "mri_experience" or field.name == "work_schedule" %}
                                                     {% for value, label in field.field.choices %}
-                                                        <div class="radio-button {% if field.name == "mri_experience" and value == "other" %}radio-button_with-other{% endif %}">
+                                                        <div class="radio-button {% if value == "other" %}radio-button_with-other{% endif %}">
                                                             <input type="radio" class="radio-button__input"
                                                                    id="{{ field.name }}_{{ value }}"
                                                                    name="{{ field.name }}" value="{{ value }}"
@@ -79,19 +82,19 @@
                                                                 <span class="radio-button__custom"></span>
                                                                 {{ label }}
                                                             </label>
+                                                            {% if field.name == "specialization" and value == "other" %}
+                                                                <div class="other-input-container" id="specialization-other-container" style="display:none;">
+                                                                    {{ medblogers_form.specialization_other }}
+                                                                </div>
+                                                            {% endif %}
                                                             {% if field.name == "mri_experience" and value == "other" %}
                                                                 <div class="other-input-container" id="mri-experience-other-container" style="display:none;">
                                                                     {{ medblogers_form.mri_experience_other }}
                                                                 </div>
                                                             {% endif %}
-                                                            {% if field.name == "mri_description_experience" and value == "yes" %}
-                                                                <div class="other-input-container" id="mri-description-details-container" style="display:none;">
-                                                                    <div class="field_item_label_text" style="margin: 8px 0 12px;">
-                                                                    </div>
-                                                                    <div class="textarea-with-underline">
-                                                                        {{ medblogers_form.mri_description_experience_details }}
-                                                                        <div class="underline"></div>
-                                                                    </div>
+                                                            {% if field.name == "work_schedule" and value == "other" %}
+                                                                <div class="other-input-container" id="work-schedule-other-container" style="display:none;">
+                                                                    {{ medblogers_form.work_schedule_other }}
                                                                 </div>
                                                             {% endif %}
                                                         </div>

@@ -43,6 +43,12 @@ class NewProduct(models.Model):
         ("telegram", "Telegram"),
     ]
 
+    SPECIALIZATION_CHOICES = [
+        ("radiologist", "рентгенолог"),
+        ("resident_student", "я ординатор/студент"),
+        ("other", "Другое"),
+    ]
+
     MRI_EXPERIENCE_CHOICES = [
         ("0-1_year", "0-1 год"),
         ("2-5_years", "2-5 лет"),
@@ -50,26 +56,27 @@ class NewProduct(models.Model):
         ("other", "Другое"),
     ]
 
-    SPECIALIZATION_CHOICES = [
-        ("radiologist", "рентгенолог"),
-        ("resident_student", "я ординатор/студент"),
-    ]
-
-    MRI_DESCRIPTION_EXPERIENCE_CHOICES = [
-        ("no", "Нет"),
-        ("yes", "Да"),
-    ]
-
     WORK_SCHEDULE_CHOICES = [
         ("until_14", "до 14.00"),
         ("14_to_20", "с 14.00 до 20.00"),
         ("night_shifts", "Ночные дежурства"),
+        ("other", "Другое"),
     ]
 
     source = models.CharField(
         max_length=20,
         choices=SOURCE_CHOICES,
         verbose_name="Вы увидели эту анкету у меня в:",
+    )
+    specialization = models.CharField(
+        max_length=30,
+        choices=SPECIALIZATION_CHOICES,
+        verbose_name="Ваша специальность",
+    )
+    specialization_other = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name="Ваша специальность: другое",
     )
     mri_experience = models.CharField(
         max_length=30,
@@ -81,42 +88,35 @@ class NewProduct(models.Model):
         blank=True,
         verbose_name="Ваш опыт в МРТ: другое",
     )
-    specialization = models.CharField(
-        max_length=30,
-        choices=SPECIALIZATION_CHOICES,
-        verbose_name="Ваша специальность",
-    )
-    mri_description_experience = models.TextField(
-        verbose_name="У вас есть опыт описания МРТ",
-    )
-    mri_description_experience_details = models.TextField(
-        blank=True,
-        verbose_name="укажите количество лет",
-    )
-    city = models.CharField(
-        max_length=120,
-        verbose_name="Город проживания в настоящий момент (для понимания часового пояса)",
+    difficult_sections = models.TextField(
+        verbose_name="Какие разделы в МРТ у вас вызывают наибольшие трудности",
     )
     income_rub = models.CharField(
         max_length=120,
         verbose_name="Вас средний доход в месяц, в рублях",
     )
-    difficult_sections = models.TextField(
-        verbose_name="Какие разделы в МРТ у вас вызывают наибольшие трудности",
-    )
     can_plan_mri = models.TextField(
-        verbose_name="Вы умеете самостоятельно планировать МРТ исследования",
+        verbose_name="Вы умеете самостоятельно планировать МРТ исследования?",
     )
     work_schedule = models.CharField(
         max_length=20,
         choices=WORK_SCHEDULE_CHOICES,
         verbose_name="Ваш график работы",
     )
+    work_schedule_other = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name="Ваш график работы: другое",
+    )
     convenient_time = models.TextField(
         verbose_name="Укажите удобное время для прохождения курса",
     )
     convenient_weekdays = models.TextField(
         verbose_name="Укажите удобные дни недели для прохождения курса",
+    )
+    city = models.CharField(
+        max_length=120,
+        verbose_name="Город проживания в настоящий момент",
     )
     full_name = models.CharField(
         max_length=200,

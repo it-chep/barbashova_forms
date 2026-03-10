@@ -26,7 +26,19 @@ $(document).ready(function () {
         $textarea.css('height', $textarea[0].scrollHeight + 'px');
     }
 
-    function syncOtherInputState() {
+    function syncSpecializationOtherState() {
+        const enabled = $('input[name="specialization"]:checked').val() === 'other';
+        const $otherInput = $('#id_specialization_other');
+        const $otherContainer = $('#specialization-other-container');
+        $otherInput.prop('disabled', !enabled);
+        $otherContainer.toggle(enabled);
+        if (!enabled) {
+            $otherInput.val('');
+            clearError(getContainer($otherInput));
+        }
+    }
+
+    function syncMriExperienceOtherState() {
         const enabled = $('input[name="mri_experience"]:checked').val() === 'other';
         const $otherInput = $('#id_mri_experience_other');
         const $otherContainer = $('#mri-experience-other-container');
@@ -38,15 +50,15 @@ $(document).ready(function () {
         }
     }
 
-    function syncDescriptionDetailsState() {
-        const enabled = $('input[name="mri_description_experience"]:checked').val() === 'yes';
-        const $detailsInput = $('#id_mri_description_experience_details');
-        const $detailsContainer = $('#mri-description-details-container');
-        $detailsInput.prop('disabled', !enabled);
-        $detailsContainer.toggle(enabled);
+    function syncWorkScheduleOtherState() {
+        const enabled = $('input[name="work_schedule"]:checked').val() === 'other';
+        const $otherInput = $('#id_work_schedule_other');
+        const $otherContainer = $('#work-schedule-other-container');
+        $otherInput.prop('disabled', !enabled);
+        $otherContainer.toggle(enabled);
         if (!enabled) {
-            $detailsInput.val('');
-            clearError(getContainer($detailsInput));
+            $otherInput.val('');
+            clearError(getContainer($otherInput));
         }
     }
 
@@ -67,10 +79,12 @@ $(document).ready(function () {
         clearError(getContainer($('#id_policy_agreement')));
     });
 
-    $('input[name="mri_experience"]').on('change', syncOtherInputState);
-    $('input[name="mri_description_experience"]').on('change', syncDescriptionDetailsState);
-    syncOtherInputState();
-    syncDescriptionDetailsState();
+    $('input[name="specialization"]').on('change', syncSpecializationOtherState);
+    $('input[name="mri_experience"]').on('change', syncMriExperienceOtherState);
+    $('input[name="work_schedule"]').on('change', syncWorkScheduleOtherState);
+    syncSpecializationOtherState();
+    syncMriExperienceOtherState();
+    syncWorkScheduleOtherState();
 
     $('.submit_button').on('click', function (e) {
         e.preventDefault();
@@ -81,7 +95,7 @@ $(document).ready(function () {
         $button.css({opacity: '0.7', 'pointer-events': 'none'});
         $button.find('.submit_text').text('Отправка...');
 
-        ['source', 'mri_experience', 'specialization', 'work_schedule'].forEach(function (fieldName) {
+        ['source', 'specialization', 'mri_experience', 'work_schedule'].forEach(function (fieldName) {
             const $field = $(`input[name="${fieldName}"]`);
             if (!$field.is(':checked')) {
                 showError(getContainer($field.first()));
@@ -89,22 +103,20 @@ $(document).ready(function () {
             }
         });
 
+        if ($('input[name="specialization"]:checked').val() === 'other' && !$('#id_specialization_other').val().trim()) {
+            showError(getContainer($('#id_specialization_other')));
+            isValid = false;
+        }
         if ($('input[name="mri_experience"]:checked').val() === 'other' && !$('#id_mri_experience_other').val().trim()) {
             showError(getContainer($('#id_mri_experience_other')));
             isValid = false;
         }
-
-        const $mriDescriptionExperience = $('input[name="mri_description_experience"]');
-        if (!$mriDescriptionExperience.is(':checked')) {
-            showError(getContainer($mriDescriptionExperience.first()));
-            isValid = false;
-        }
-        if ($('input[name="mri_description_experience"]:checked').val() === 'yes' && !$('#id_mri_description_experience_details').val().trim()) {
-            showError(getContainer($('#id_mri_description_experience_details')));
+        if ($('input[name="work_schedule"]:checked').val() === 'other' && !$('#id_work_schedule_other').val().trim()) {
+            showError(getContainer($('#id_work_schedule_other')));
             isValid = false;
         }
 
-        ['city', 'income_rub', 'difficult_sections', 'can_plan_mri', 'convenient_time', 'convenient_weekdays', 'full_name', 'phone', 'telegram'].forEach(function (fieldName) {
+        ['difficult_sections', 'income_rub', 'can_plan_mri', 'convenient_time', 'convenient_weekdays', 'city', 'full_name', 'phone', 'telegram'].forEach(function (fieldName) {
             const $field = $(`[name="${fieldName}"]`);
             if (!$field.val().trim()) {
                 showError(getContainer($field));
@@ -157,7 +169,8 @@ $(document).ready(function () {
             clearError($(this));
         });
         $('#id_policy_agreement').prop('checked', false);
-        syncOtherInputState();
-        syncDescriptionDetailsState();
+        syncSpecializationOtherState();
+        syncMriExperienceOtherState();
+        syncWorkScheduleOtherState();
     });
 });
