@@ -7,6 +7,7 @@ class NewProductData:
     source: Optional[str] = None
     specialization: Optional[str] = None
     mri_experience: Optional[str] = None
+    mri_experience_other: Optional[str] = None
     difficult_sections: Optional[str] = None
     income_rub: Optional[str] = None
     can_plan_mri: Optional[str] = None
@@ -48,4 +49,5 @@ class NewProductData:
             phone=model_instance.phone,
             telegram=model_instance.telegram,
             policy_agreement=model_instance.policy_agreement,
+            mri_experience_other=model_instance.mri_experience_other,
         )

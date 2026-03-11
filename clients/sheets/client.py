@@ -29,7 +29,6 @@ class SpreadsheetClient:
                 f"{data.source}",
                 f"{data.mri_experience} {data.mri_experience_other}",
                 f"{data.specialization}",
-                f"{data.mri_description_experience} {data.mri_description_experience_details}",
                 f"{data.city}",
                 f"{data.income_rub}",
                 f"{data.difficult_sections}",
