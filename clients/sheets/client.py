@@ -27,13 +27,14 @@ class SpreadsheetClient:
                 f"{data.telegram}",
                 f"{data.phone}",
                 f"{data.source}",
-                f"{data.mri_experience} {data.mri_experience_other}",
                 f"{data.specialization}",
-                f"{data.city}",
-                f"{data.income_rub}",
+                f"{data.mri_experience} {data.mri_experience_other}",
                 f"{data.difficult_sections}",
+                f"{data.income_rub}",
                 f"{data.can_plan_mri}",
                 f"{data.work_schedule}",
                 f"{data.convenient_time}",
+                f"{data.convenient_weekdays}",
+                f"{data.city}",
             ]
         )
